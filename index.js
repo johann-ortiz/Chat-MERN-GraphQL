@@ -1,4 +1,7 @@
 "use strict";
+const express = require("express");
+const app = express();
+const graphqlHTTP = require("express-graphql");
 const { graphql, buildSchema } = require("graphql");
 
 const db = {
@@ -9,33 +12,43 @@ const db = {
 };
 
 const schema = buildSchema(`
-    type Query {
-        users: [User!]!
-    }
+      type Query {
+          users: [User!]!
+      }
+  
+      type Mutation {
+          addUser(email: String!, name: String): User
+      }
 
-    type User {
-        id: ID!
-        email: String!
-        name: String
-        avatarUrl: String
-    }
-`);
+      type User {
+          id: ID!,
+          email: String!
+          name: String
+          avatarUrl: String
+      }
+  `);
 
 const rootValue = {
-  users: () => db.users
+  users: () => db.users,
+  addUser: ({ email, name }) => {
+    const user = {
+      id: Date.now,
+      email,
+      name
+    };
+
+    db.users.push(user);
+    return user;
+  }
 };
 
-graphql(
-  schema,
-  `
-    {
-      users {
-        email
-        name
-      }
-    }
-  `,
-  rootValue
-)
-  .then(res => console.dir(res, { depth: null }))
-  .catch(console.error);
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    rootValue,
+    graphiql: true
+  })
+);
+
+app.listen(process.env.PORT || 3000, () => console.log("Server Running"));
