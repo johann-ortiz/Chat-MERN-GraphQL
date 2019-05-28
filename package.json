@@ -1,0 +1,22 @@
+{
+  "name": "chat-mern-graphql",
+  "version": "1.0.0",
+  "description": "Simple chat app build with MERN Stack and GraphQL (For educational purposes)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Molderck/Chat-MERN-GraphQL.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Molderck/Chat-MERN-GraphQL/issues"
+  },
+  "homepage": "https://github.com/Molderck/Chat-MERN-GraphQL#readme",
+  "dependencies": {
+    "graphql": "^14.3.1"
+  }
+}
